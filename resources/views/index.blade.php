@@ -26,15 +26,13 @@
                         {{ $post->title }}
                     </td>
                     <td>
-                        {{ $post->post_attachments()->count() }}
+                        {{ $post->post_attachments_count }}
                     </td>
                     <td>
-                        {{ $post->comments()->count() }}
+                        {{ $post->comments_count }}
                     </td>
                     <td>
-                        {{ $post->comments->reduce(function ($carry, $comment) {
-    return $carry + $comment->comment_attachments()->count();
-}) }}
+                        {{ $post->sumCommentsAttachmentCount() }}
                     </td>
                 </tr>
             @endforeach

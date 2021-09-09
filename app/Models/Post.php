@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 
 class Post extends Model
 {
@@ -32,6 +34,13 @@ class Post extends Model
 
     public function post_attachments()
     {
-        return $this->hasMany(PostAttachment::class);
+        return $this->morphMany(Attachment::class, 'attachmentable');
+    }
+
+    public function sumCommentsAttachmentCount()
+    {
+        return $this->comments->reduce(function ($carry, $comment) {
+               return $carry + $comment->comment_attachments_count;
+            }); 
     }
 }
